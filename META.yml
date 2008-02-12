@@ -1,7 +1,7 @@
 --- #YAML:1.0
 name:                Music-Tag-FLAC
-version:             0.28
-abstract:            ~
+version:             0.29
+abstract:            Plugin module for Music::Tag to get information from flac headers. 
 license:             ~
 author:              
     - Edward Allen (ealleniii _at_ cpan _dot_ org)
