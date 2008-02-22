@@ -1,5 +1,5 @@
 package Music::Tag::FLAC;
-our $VERSION = 0.30;
+our $VERSION = 0.31;
 
 # Copyright (c) 2007 Edward Allen III. Some rights reserved.
 #
@@ -156,32 +156,54 @@ sub close {
 
 None currently.
 
+=head1 METHODS
+
+=over 4
+
+=item default_options
+
+Returns the default options for the plugin.  
+
+=item set_tag
+
+Save object back to FLAC header.
+
+=item get_tag
+
+Load information from FLAC header.
+
+=item close
+
+Close the file and destroy the Audio::FLAC::Header
+
+=item flac
+
+Returns the Audio::FLAC::Header object
+
+=back
+
 =head1 BUGS
 
-This method is always unreliable unless great care is taken in file naming. 
+Plugin does not fully support all fields I would like, such as an APIC frame.
 
-=head1 SEE ALSO INCLUDED
+=head1 SEE ALSO 
 
-L<Music::Tag>, L<Music::Tag::Amazon>, L<Music::Tag::File>, L<Music::Tag::Lyrics>,
+L<Audio::FLAC::Header>, L<Music::Tag>, L<Music::Tag::Amazon>, L<Music::Tag::File>, L<Music::Tag::Lyrics>,
 L<Music::Tag::M4A>, L<Music::Tag::MP3>, L<Music::Tag::MusicBrainz>, L<Music::Tag::OGG>, L<Music::Tag::Option>
-
-=head1 SEE ALSO
-
-L<Audio::FLAC::Header>
 
 =head1 AUTHOR 
 
 Edward Allen III <ealleniii _at_ cpan _dot_ org>
 
-
-=head1 COPYRIGHT
-
-Copyright (c) 2007 Edward Allen III. Some rights reserved.
+=head1 LICENSE
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the Artistic License, distributed
 with Perl.
 
+=head1 COPYRIGHT
+
+Copyright (c) 2007,2008 Edward Allen III. Some rights reserved.
 
 =cut
 
