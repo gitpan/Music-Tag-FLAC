@@ -1,0 +1,32 @@
+CHANGES
+	Release Name: 0.40_01
+		*	Started using git and github
+
+		*	Normalized version accross plugins.
+
+		*	POD Changes
+
+		*	Cabability Methods
+
+		*	Revised Testing
+
+		*	Bug fixes
+
+    Release Name: 0.32
+        *   Changed license to allow option of GPL
+
+        *   Started using Pod::Readme
+
+    Release Name: 0.31
+        *   Kwalitee Changes
+
+    Release Name: 0.30
+        *   Fixed packaging issues
+
+    Release Name: 0.29
+        *   Fixed name of module in POD
+
+    Release Name: 0.28
+        *   Split off from Music::Tag distribution
+
+
