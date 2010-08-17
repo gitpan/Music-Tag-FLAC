@@ -1,30 +1,23 @@
 package Music::Tag::FLAC;
-use strict;
-use warnings;
-our $VERSION = .40_01;
+use strict; use warnings; use utf8;
+our $VERSION = '0.4101';
 
-# Copyright (c) 2007 Edward Allen III. Some rights reserved.
-
+# Copyright © 2007,2010 Edward Allen III. Some rights reserved.
 #
 # You may distribute under the terms of either the GNU General Public
 # License or the Artistic License, as specified in the README file.
-#
-
 
 use Audio::FLAC::Header;
-
-#use Image::Magick;
 use base qw(Music::Tag::Generic);
 
 sub flac {
 	my $self = shift;
 	unless ((exists $self->{_Flac}) && (ref $self->{_Flac})) {
-		if ($self->info->filename) {
-			$self->{_Flac} = Audio::FLAC::Header->new($self->info->filename);
+		if ($self->info->has_data('filename')) {
+			$self->{_Flac} = Audio::FLAC::Header->new($self->info->get_data('filename'));
 		}
 	}
 	return $self->{_Flac};
-
 }
 
 our %tagmap = (
@@ -62,19 +55,19 @@ sub get_tag {
 		while (my ($t, $v) = each %{$self->flac->tags}) {
 			if ((exists $tagmap{$t}) && (defined $v)) {
 				my $method = $tagmap{$t};
-				$self->info->$method($v);
+				$self->info->set_data($method,$v);
 			}
 		}
-        $self->info->secs( $self->flac->{trackTotalLengthSeconds} );
-        $self->info->bitrate( int($self->flac->{bitRate} / 1000) );
+        $self->info->set_data('secs', $self->flac->{trackTotalLengthSeconds} );
+        $self->info->set_data('bitrate', int($self->flac->{bitRate} / 1000) );
 
 		#"MIME type"     => The MIME Type of the picture encoding
 		#"Picture Type"  => What the picture is off.  Usually set to 'Cover (front)'
 		#"Description"   => A short description of the picture
 		#"_Data"	       => The binary data for the picture.
-        if (( $self->flac->picture) && ( not $self->info->picture_exists)) {
+        if (( $self->flac->picture) && ( not $self->info->has_data('picture'))) {
 			my $pic = $self->flac->picture;
-            $self->info->picture( {
+            $self->info->set_data('picture', {
 					"MIME type" => $pic->{mimeType},
 					"Picture Type" => $pic->{description},
 					"_Data"	=> $pic->{imageData},
@@ -88,8 +81,8 @@ sub set_tag {
     my $self = shift;
     if ( $self->flac ) {
 		while (my ($t, $v) = each %tagmap) {
-			if (defined $self->info->$v) {
-				$self->flac->tags->{$t} = $self->info->$v;
+			if ($self->info->has_data($v)) {
+				$self->flac->tags->{$t} = $self->info->get_data($v);
 			}
 		}
         $self->flac->write();
@@ -99,6 +92,7 @@ sub set_tag {
 
 sub close {
 	my $self = shift;
+    $self->{_Flac} = undef;
 	delete $self->{_Flac};
 }
 
@@ -244,6 +238,8 @@ Returns the Audio::FLAC::Header object
 
 Plugin does not fully support all fields I would like.  Pictures are read only (limitation of Audio::FLAC::Header).
 
+Please use github for bug tracking: L<http://github.com/riemann42/Music-Tag-FLAC/issues|http://github.com/riemann42/Music-Tag-FLAC/issues>.
+
 =head1 SEE ALSO 
 
 L<Audio::FLAC::Header>, L<Music::Tag>, L<Music::Tag::Amazon>, L<Music::Tag::File>, L<Music::Tag::Lyrics>,
@@ -252,10 +248,6 @@ L<Music::Tag::M4A>, L<Music::Tag::MP3>, L<Music::Tag::MusicBrainz>, L<Music::Tag
 =head1 SOURCE
 
 Source is available at github: L<http://github.com/riemann42/Music-Tag-FLAC|http://github.com/riemann42/Music-Tag-FLAC>.
-
-=head1 BUG TRACKING
-
-Please use github for bug tracking: L<http://github.com/riemann42/Music-Tag-FLAC/issues|http://github.com/riemann42/Music-Tag-FLAC/issues>.
 
 =head1 AUTHOR 
 
@@ -289,5 +281,5 @@ http://www.gnu.org/copyleft/gpl.html.
 
 =head1 COPYRIGHT
 
-Copyright (c) 2007,2008 Edward Allen III. Some rights reserved.
+Copyright © 2007,2008,2010 Edward Allen III. Some rights reserved.
 
